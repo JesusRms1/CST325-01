@@ -7,31 +7,82 @@
 <canvas id="pcanvas" width="300" height="200" style="border:1px solid gray;" > 
 </canvas>
 <script>
+    var sceneList = [];
+    var newRect =0;
+   
+    function updateAndDraw(){
+        for(  i = 0; i < sceneList.size; i++){
+            newRect = sceneList[i];
+            newRect.draw();
+            newRect = Math.floor(Math.random()*255);
+        }
+        requestAnimationFrame(updateAndDraw)
+
+        function updateStats(){
+            var p = document.getElementById("frameCount");
+            p.innerText = "Frame Count: " + currentFrameNumber;
+      
+            var p = document.getElementById("rectangleCount");
+            p.innerText = "Rectangles Count: " + sceneList.length;
+        
+    }
+  
+    }
+   
     //created a function called init
     function init(){
         console.log("Hello World!");
-        var newRectangleInstance = new Rectangle(20, 20,  "rgb(0, 255, 0)");
-        draw();
+        var mycanvas = document.getElementById("pcanvas");
         
-    }
-    
-    function draw(){
-        var mycanvas = document.getElementById("pcanvas")
-        const ctx = mycanvas.getContext("2d");
-        ctx.fillStyle = "Green";
-        ctx.fillRect(20, 20, 150, 100);
-        ctx.strokeRect(20, 20, 150, 100);
-        
-
-    }
-    function Rectangle(x,y,Color){
-        
+        function Rectangle(x,y,Color){
         this.x = x;
         this.y = y;
         this.Color = Color;
+        
+        this.draw = function(){
+        const ctx = mycanvas.getContext("2d");
+        ctx.fillStyle = Color;
+        ctx.fillRect(x, y, 60, 60);
+        ctx.strokeRect(x, y, 60, 60);
+        
+        
+
+        // this.x=x;
+        // this.y=y;
+        // this.Color = "Green";
+        // this.draw = Rectangle;
+        // rectangleInstance.draw()
+        }
+        
         // draw(RectangleInstance)
         // newRectangleInstance.draw();
     }
+        var newRectangleInstance = new Rectangle(20, 20,  "rgb(0, 255, 0)");
+        sceneList.push(newRectangleInstance);
+        var newRectangleInstance2 = new Rectangle(105,20, "rgb(0, 255, 0)");
+        sceneList.push(newRectangleInstance2);
+        var newRectangleInstance3 = new Rectangle(200,20, "rgb(0, 255, 0)");
+
+    
+        newRectangleInstance.draw();
+        newRectangleInstance2.draw();
+        newRectangleInstance3.draw();
+        updateAndDraw();
+        // updateStats();
+        
+    }
+    
+    // function draw(){
+    //     var mycanvas = document.getElementById("pcanvas")
+    //     const ctx = mycanvas.getContext("2d");
+    //     ctx.fillStyle = "Green";
+    //     ctx.fillRect(20, 20, 150, 100);
+    //     ctx.strokeRect(20, 20, 150, 100);
+    //     // var newRectangleInstance = new Rectangle(20, 20,  "rgb(0, 255, 0)");
+        
+
+    // }
+    
     
 </script>
 <body onload="init()">
@@ -40,8 +91,8 @@
     <input type="button" value="Change Spawn Color">
     <br>
     <!-- <input type= "Change Spawn Color"> -->
-    <p>Frame Count: 0<br></p>
-    <p>Recatnagle Frame Count: 0<br></p>
+    <p id = "framecount">Frame Count: 0<br></p>
+    <p id = "recatangleFrameCount">Recatnagle Frame Count: 0<br></p>
     <script>
         
     </script>
