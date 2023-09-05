@@ -137,7 +137,6 @@ Vector3.prototype = {
 
   //============================================================================= 
   // The functions below must be completed in order to receive an "A"
-
   //----------------------------------------------------------------------------- 
   fromTo: function(fromPoint, toPoint) {
     if (!(fromPoint instanceof Vector3) || !(toPoint instanceof Vector3)) {
@@ -145,11 +144,22 @@ Vector3.prototype = {
     }
     // todo - return the vector that goes from "fromPoint" to "toPoint"
     //        NOTE - "fromPoint" and "toPoint" should not be altered
+    var newX = toPoint.x - fromPoint.x;
+    var newY = toPoint.y - fromPoint.y;
+    var newZ = toPoint.z - fromPoint.z;
+    
+    var fromTo = new Vector3(newX, newY, newZ);
+
+    return fromTo;
   },
 
   //----------------------------------------------------------------------------- 
   rescale: function(newScale) {
     // todo - Change this vector's length to be newScale
+    var newlength =  newScale / this.length();
+    this.x *= newlength;
+    this.y *= newlength;
+    this.z *= newlength;
     return this;
   },
 
@@ -157,7 +167,13 @@ Vector3.prototype = {
   angle: function(v1, v2) {
     // todo - calculate the angle in degrees between vectors v1 and v2. Do NOT
     //        change any values on the vectors themselves
-    return 0;
+    var angle = v1.dot(v2);
+    angle = angle / (v1.length() * v2.length());
+
+    // result is in radians
+    angle = Math.acos(angle);
+
+    return angle * (180/Math.PI);
   },
 
   //----------------------------------------------------------------------------- 
@@ -166,7 +182,11 @@ Vector3.prototype = {
     //        but whose length is the projection of "vectorToProject" onto "otherVector"
     //        NOTE - "vectorToProject" and "otherVector" should NOT be altered (i.e. use clone)
     //        See "Vector Projection Slides" under "Extras" for more info.
+    var projectionVector = otherVector.clone();
+    var newLength = vectorToProject.dot(otherVector) / otherVector.length();
+    projectionVector.rescale(newLength);
 
+    return projectionVector;
   }
 };
 
