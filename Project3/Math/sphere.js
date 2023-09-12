@@ -112,6 +112,8 @@ Sphere.prototype = {
       //check if intersections are negative
       if (alpha1 < 0 && alpha2 < 0) {
         invalidIntersections = true;
+      } else if ((alpha1 >= 0 && alpha2 < 0) || (alpha1 < 0 && alpha2 >= 0)) {
+        invalidIntersections = true;
       } else {
         if (alpha1 > alpha2) {
           alpha1 = alpha2;
@@ -143,3 +145,21 @@ Sphere.prototype = {
 }
 ​
 // EOF 00100001-10
+Collapse
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
