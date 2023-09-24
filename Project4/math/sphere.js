@@ -13,16 +13,17 @@
  *   console.log("Got a valid intersection!");
  * }
  */
-​
-var Sphere = function(center, radius) {
+
+var Sphere = function(center, radius, color) {
   // Sanity checks (your modification should be below this where indicated)
   if (!(this instanceof Sphere)) {
     console.error("Sphere constructor must be called with the new operator");
   }
-​
+
   this.center = center;
   this.radius = radius;
-​
+  this.color = color;
+
   // todo - make sure this.center and this.radius are replaced with default values if and only if they
   // are invalid or undefined (i.e. center should be of type Vector3 & radius should be a Number)
   // - the default center should be the zero vector
@@ -31,18 +32,26 @@ var Sphere = function(center, radius) {
     this.center = new Vector3(0,0,0);
     this.radius = 1;
   }
-​
-​
+
+  if (color == undefined) {
+    this.color = new Vector3(1,1,1);
+  }
+
+
   // Sanity checks (your modification should be above this)
   if (!(this.center instanceof Vector3)) {
     console.error("The sphere center must be a Vector3");
   }
-​
+
+  if (!(this.color instanceof Vector3)) {
+    console.error("The sphere center must be a Vector3");
+  }
+
   if ((typeof(this.radius) != 'number')) {
     console.error("The radius must be a Number");
   }
 };
-​
+
 Sphere.prototype = {
   
   //----------------------------------------------------------------------------- 
@@ -55,16 +64,16 @@ Sphere.prototype = {
     // ------------------
     // 0. (optional) watch the video showing the complete implementation of plane.js
     //    You may find it useful to see a different piece of geometry coded.
-​
+
     // 1. review slides/book math
     
     // 2. identity the vectors needed to solve for the coefficients in the quadratic equation
-​
+
     // 3. calculate the discriminant
     
     // 4. use the discriminant to determine if further computation is necessary 
     //    if (discriminant...) { ... } else { ... }
-​
+
     // 5. return the following object literal "result" based on whether the intersection
     //    is valid (i.e. the intersection is in front of the ray AND the ray is not inside
     //    the sphere)
@@ -77,7 +86,7 @@ Sphere.prototype = {
     //        normal: 'a vector3 containing a unit length normal at the intersection point',
     //        distance: 'a scalar containing the intersection distance from the ray origin'
     //      }
-​
+
     // An object created from a literal that we will return as our result
     // Replace the null values in the properties below with the right values
     // var result = {
@@ -86,29 +95,29 @@ Sphere.prototype = {
     //   normal: null,   // should be of type Vector3
     //   distance: null, // should be of type Number (scalar)
     // };
-​
+
     var rayDirectionClone = r1.direction.clone();
-​
+
     // (origin of ray - center of sphere)
     var originSubCenter = r1.origin.clone().subtract(this.center);
-​
+
     //calculating a part of quadratic equation
     var a = rayDirectionClone.dot(rayDirectionClone);
-​
+
     // calculating b part of quadratic equation
     var b = rayDirectionClone.dot(originSubCenter) * 2;
-​
+
     // calculating c part of quadratic equation
     var c = originSubCenter.dot(originSubCenter) - Math.pow(this.radius, 2);
-​
+
     // calculating disriminant
     var discriminant = Math.pow(b, 2) - (4 * a * c);
-​
+
     var invalidIntersections = false;
     if (discriminant >= 0) {
       var alpha1 = (-b + Math.sqrt(discriminant)) / 2 * a;
       var alpha2 = (-b - Math.sqrt(discriminant)) / 2 * a;
-​
+
       //check if intersections are negative
       if (alpha1 < 0 && alpha2 < 0) {
         invalidIntersections = true;
@@ -118,7 +127,7 @@ Sphere.prototype = {
         if (alpha1 > alpha2) {
           alpha1 = alpha2;
         }
-​
+
         var intersectionPoint = r1.origin.clone().add(r1.direction.clone().multiplyScalar(alpha1));
         var result = {
           hit: true,      // should be of type Boolean
@@ -130,7 +139,7 @@ Sphere.prototype = {
     } else {
       invalidIntersections = true;
     }
-​
+
     if (invalidIntersections) {
       var result = {
         hit: false,      // should be of type Boolean
@@ -139,18 +148,12 @@ Sphere.prototype = {
         distance: null, // should be of type Number (scalar)
       };
     }
-​
+
     return result;
   }
 }
-​
+
 // EOF 00100001-10
-Collapse
-
-
-
-
-
 
 
 
