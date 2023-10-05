@@ -277,7 +277,7 @@ Matrix4.prototype = {
     return this;
   },
 
-  // -------------------------------------------------------------------------
+ // -------------------------------------------------------------------------
   // @translation - a Matrix4 translation matrix
   // @rotation - a Matrix4 rotation Matrix
   // @scale - a Matrix4 scale matrix
@@ -288,6 +288,9 @@ Matrix4.prototype = {
     //        and scale should NOT be modified.
 
     var trsMatrix = new Matrix4();
+
+    trsMatrix.multiply(translation).multiply(rotation).multiply(scale);
+
     return trsMatrix;
   },
 
@@ -308,6 +311,11 @@ Matrix4.prototype = {
     var moonMatrix = new Matrix4();
 
     // todo - combine all necessary matrices necessary to achieve the desired effect
+    var rotation = new Matrix4().makeRotationZ(currentRotationAngle);
+    var translationForMoon = new Matrix4().makeTranslation(offsetFromEarth);
+
+
+    moonMatrix.multiply(earthTransform).multiply(rotation).multiply(translationForMoon);
 
     return moonMatrix;
   },
