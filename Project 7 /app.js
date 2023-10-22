@@ -146,9 +146,13 @@ function updateAndRender() {
     // todo #4 - change color for the sphere
 
     // todo #9 - animate the color of there sphere
+    var oscillation = Math.sin(time.secondsElapsedSinceStart * 4) * 1/2 + 1/2;
+    var fract = time.secondsElapsedSinceStart * 2 - Math.floor(time.secondsElapsedSinceStart * 2);
+    var oscillation2 = Math.tanh(time.secondsElapsedSinceStart * 3) / 2 + 0.5;
     // todo #10 - animate the color with non-grayscale values
 
     // todo #3 - render the sphere
-    gl.uniform4f(colorProgram.uniforms.colorUniform, 1, 1, 1, 1.0);
+    gl.uniform4f(colorProgram.uniforms.colorUniform, 1 - oscillation, fract, oscillation2, 1.0);
     sphereGeometry.render(camera, projectionMatrix, colorProgram);
 }
+
