@@ -188,7 +188,7 @@ function updateAndRender() {
     var translationForLight = new Matrix4().makeTranslation(lightPosition);
     // moonMatrix.multiply(earthTransform).multiply(rotation).multiply(translationForMoon);
 
-    lightGeometry.worldMatrix.multiply(rotationMatrix);
+    lightGeometry.worldMatrix = rotationMatrix.multiply(lightGeometry.worldMatrix);
     // lightGeometry.worldMatrix.multiply(translationForLight);
 
     // todo #10
